@@ -44,6 +44,6 @@ __screenshots__/
 Thumbs.db
 
 #Angular related
-/.angular/
-/node_modules/
+.angular/
+node_modules/
 /dist/
