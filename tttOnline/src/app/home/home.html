@@ -1,6 +1,15 @@
-<body>
 <p>home works!</p>
+
+  <h1> It is the turn of {{personToColor[person]}} </h1>
+  <div class = "table">
+
+    @for(row of grid; let i = $index; track i){
+        @for(column of grid[$index]; let j = $index; track j){
+
+          <div (click) = "onTileClick($event, i,j)" > {{i}} {{j}} </div>
+        }
+    }
+  </div>
 
 
 <p>test</p>
-</body>

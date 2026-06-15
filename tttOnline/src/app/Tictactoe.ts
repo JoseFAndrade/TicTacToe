@@ -1,10 +1,10 @@
-class Tictactoe{
+export class Tictactoe{
   private grid: number[][];
   private turn: number; //the number will correspond to the chip as well |an outer function will dictate this
 
 
   constructor() {
-    this.grid = [[-1,-1,-1],[-1,-1,-1]];
+    this.grid = [[-1,-1,-1],[-1,-1,-1],[-1,-1,-1]];
     /*
     for(let i = 0; i < 2; i++){
       for(let y = 0; y < 2; y ++){
@@ -18,10 +18,16 @@ class Tictactoe{
     this.grid[x][y] = turn;
   }
 
+  getGrid(){
+    return this.grid;
+  }
+
   //this function will return whether there is still playable options on the board
   checkPlayable(): boolean{
-    for(let i = 0; i < 2; i++){
-      for(let y = 0; y < 2; y++){
+    if(this.checkWin() !== -1)
+      return false;
+    for(let i = 0; i <= 2; i++){
+      for(let y = 0; y <= 2; y++){
         if(this.grid[i][y] === -1)
           return true;
       }
@@ -33,14 +39,18 @@ class Tictactoe{
   checkWin(): number{
     //win condition is 3 in in a row | this can be up/down/diagonal
 
-    //check within a column
-    for(let i = 0; i < 2; i++){
+    console.log("check within a column");
+    console.log(this.grid);
+
+    //check within a row
+    for(let i = 0; i <= 2; i++){
 
       let continues: boolean = true;
       let prev = this.grid[i][0];
-      for(let y = 0; y < 2; y++){
+      for(let y = 0; y <= 2; y++){
         if(prev === this.grid[i][y]){
           prev = this.grid[i][y];
+          console.log(prev);
         }
         else{
           continues = false;
@@ -51,11 +61,12 @@ class Tictactoe{
         return prev; //returns the number of the winner in this case
     }
 
-    //check within a row
-    for(let i = 0; i < 2; i++){
+    console.log("check within a row")
+    //check within a column
+    for(let i = 0; i <= 2; i++){
       let continues: boolean = true;
       let prev = -1;
-      for(let y = 0; y < 2; y++){
+      for(let y = 0; y <= 2; y++){
         if(prev === -1 || this.grid[y][i] === prev){
           prev = this.grid[y][i];
         }

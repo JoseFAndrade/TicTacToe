@@ -1,3 +1,5 @@
+import { Tictactoe } from './app/Tictactoe';
+
 class Handler{
   private turn: number;
   private playing: boolean = true;
@@ -14,7 +16,7 @@ class Handler{
       //we need to handle now making the turn
       //turn will always be given over to 0
 
-      this.game.setPiece()
+      //this.game.setPiece()
 
 
     }
