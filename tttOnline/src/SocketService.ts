@@ -46,8 +46,8 @@ export class SocketService {
   // Add additional listeners for 'gameCreated' and 'playerJoined' as needed
 }
 
-var test = new SocketService();
-test.listenToMoves().subscribe((data) => console.log(data));
-test.listenToYes().subscribe((data) => console.log(data));
-test.test();
-console.log("what");
+//var test = new SocketService();
+//test.listenToMoves().subscribe((data) => console.log(data));
+//test.listenToYes().subscribe((data) => console.log(data));
+//test.test();
+//console.log("what");

@@ -1,10 +1,10 @@
 import { Component, Renderer2, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { Tictactoe } from '../Tictactoe';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -23,22 +23,18 @@ export class Home {
   onTileClick(event: PointerEvent, i: number, j: number) {
     console.log(i + '   ' + j);
 
-
-    if(this.game.checkPlayable()){
+    if (this.game.checkPlayable()) {
       const tag = event.target as HTMLElement;
       this.renderer.setStyle(tag, 'background-color', this.personToColor[this.person]);
 
       this.game.setPiece(i, j, this.person);
 
       let won: number = this.game.checkWin();
-      if(won !== -1)
-        console.log("the game has ended and " + this.personToColor[won] + "has won the game");
+      if (won !== -1)
+        console.log('the game has ended and ' + this.personToColor[won] + 'has won the game');
       //change turn
-      if (this.person === 0)
-        this.person = 1;
-      else
-        this.person = 0;
-
+      if (this.person === 0) this.person = 1;
+      else this.person = 0;
     }
   }
 }

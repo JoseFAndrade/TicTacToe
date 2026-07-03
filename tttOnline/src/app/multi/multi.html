@@ -1,0 +1,15 @@
+<p>multi works!</p>
+
+<label> Enter room id for either creation or joining of a lobby</label>
+<input type = "text" id = "room" name = "room_id">
+<button (click) = "join()"
+
+<div class = "table">
+
+  @for(row of board; let i = $index; track i){
+    @for(column of board[$index]; let j = $index; track j){
+
+      <div (click) = "onTileClick($event, i,j)" > {{i}} {{j}} </div>
+    }
+  }
+</div>
