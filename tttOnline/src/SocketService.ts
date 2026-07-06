@@ -13,6 +13,14 @@ export class SocketService {
     this.socket = io('ws://localhost:3000');
   }
 
+  createRoom(gameId: String){
+    this.socket.emit("createRoom", {id: gameId, data: ""});
+  }
+
+  joinRoom(gameId:string){
+    this.socket.emit("joinRoom", {id: gameId, data: ""});
+  }
+
   createGame(gameId: string) {
     this.socket.emit('createGame', gameId);
   }

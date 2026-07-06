@@ -1,8 +1,8 @@
 <p>multi works!</p>
 
 <label> Enter room id for either creation or joining of a lobby</label>
-<input type = "text" id = "room" name = "room_id">
-<button (click) = "join()"
+<input type = "text" id = "room" #userInput placeholder= "room_id">
+<button (click) = "create(userInput.value)">Create Room</button>
 
 <div class = "table">
 
@@ -13,3 +13,4 @@
     }
   }
 </div>
+

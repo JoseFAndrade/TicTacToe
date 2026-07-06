@@ -20,4 +20,8 @@ export class Multi {
   onTileClick(event: PointerEvent, x: number, y: number) {
 
   }
+
+  create(roomid: String){
+    this.socket.createRoom(roomid);
+  }
 }
