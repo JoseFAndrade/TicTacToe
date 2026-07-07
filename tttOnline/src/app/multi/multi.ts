@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SocketService } from '../../SocketService';
+import { SocketService } from '../../Socket/SocketService';
 
 @Component({
   selector: 'app-multi',
@@ -23,5 +23,9 @@ export class Multi {
 
   create(roomid: String){
     this.socket.createRoom(roomid);
+  }
+
+  join(roomid: String){
+    this.socket.joinRoom(roomid);
   }
 }

@@ -3,7 +3,7 @@
 <label> Enter room id for either creation or joining of a lobby</label>
 <input type = "text" id = "room" #userInput placeholder= "room_id">
 <button (click) = "create(userInput.value)">Create Room</button>
-
+<button (click) = "join(userInput.value)">Join Room</button>
 <div class = "table">
 
   @for(row of board; let i = $index; track i){

@@ -2,6 +2,12 @@ import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
 
+
+/*TODO
+ * Look up how to make it so that this class will only ever be created once per web page???
+ *  so if we nagivate to this page then home then back to this page make sure that the sockets are either the same or getting closed
+ */
+
 @Injectable({
   providedIn: 'root',
 })
@@ -13,42 +19,36 @@ export class SocketService {
     this.socket = io('ws://localhost:3000');
   }
 
-  createRoom(gameId: String){
-    this.socket.emit("createRoom", {id: gameId, data: ""});
+  createRoom(gameId: String) {
+    this.socket.emit('createRoom', { id: gameId, data: '' });
   }
 
-  joinRoom(gameId:string){
-    this.socket.emit("joinRoom", {id: gameId, data: ""});
-  }
-
-  createGame(gameId: string) {
-    this.socket.emit('createGame', gameId);
-  }
-
-  joinGame(gameId: string) {
-    this.socket.emit('joinGame', gameId);
-  }
-
-  test(){
-    this.socket.emit("test","Test");
+  joinRoom(gameId: String) {
+    this.socket.emit('joinRoom', { id: gameId, data: '' });
   }
 
   makeMove(gameId: string, moveData: any) {
     this.socket.emit('makeMove', { gameId, moveData });
   }
 
-  listenToMoves(): Observable<any> {
+  listenToRoomEvents(): Observable<any> {
     return new Observable((subscriber) => {
-      this.socket.on('test event', (data) => subscriber.next("I think it worked?"));//observer.next(data));
+      //this.socket;
     });
   }
 
-  listenToYes(): Observable<any>{
+  listenToMoves(): Observable<any> {
     return new Observable((subscriber) => {
-      this.socket.on("yes", (data) => {
+      this.socket.on('test event', (data) => subscriber.next('I think it worked?')); //observer.next(data));
+    });
+  }
+
+  listenToYes(): Observable<any> {
+    return new Observable((subscriber) => {
+      this.socket.on('yes', (data) => {
         subscriber.next(data);
-      })
-    })
+      });
+    });
   }
 
   // Add additional listeners for 'gameCreated' and 'playerJoined' as needed
