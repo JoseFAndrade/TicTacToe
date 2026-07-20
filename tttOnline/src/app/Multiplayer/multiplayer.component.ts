@@ -4,10 +4,10 @@ import { SocketService } from '../../Socket/SocketService';
 @Component({
   selector: 'app-multi',
   imports: [],
-  templateUrl: './multi.html',
-  styleUrl: './multi.css',
+  templateUrl: './multiplayer.component.html',
+  styleUrl: './multiplayer.component.css',
 })
-export class Multi {
+export class Multiplayer {
   board: number[][] = [
     [-1, -1, -1],
     [-1, -1, -1],
@@ -15,6 +15,16 @@ export class Multi {
   ];
 
   socket: SocketService = new SocketService();
+
+  constructor() {
+
+    console.log("testing");
+    this.socket.registerRoomStuff.subscribe( data => {
+      console.log("message received?");
+      console.log(data);
+    });
+
+  }
 
 
   onTileClick(event: PointerEvent, x: number, y: number) {

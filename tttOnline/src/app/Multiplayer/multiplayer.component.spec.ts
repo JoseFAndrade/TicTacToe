@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Multi } from './multi';
+import { Multiplayer } from './multiplayer.component';
 
 describe('Multi', () => {
-  let component: Multi;
-  let fixture: ComponentFixture<Multi>;
+  let component: Multiplayer;
+  let fixture: ComponentFixture<Multiplayer>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Multi],
+      imports: [Multiplayer],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(Multi);
+    fixture = TestBed.createComponent(Multiplayer);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

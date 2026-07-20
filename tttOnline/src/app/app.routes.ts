@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { Home } from './home/home';
-import { Multi } from './multi/multi';
+import { Multiplayer } from './Multiplayer/multiplayer.component';
 
 export const routes: Routes = [
   {path: '', component: Home},
-  {path: 'multiplayer', component:Multi}
+  {path: 'multiplayer', component:Multiplayer}
 ];

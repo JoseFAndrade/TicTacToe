@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
+import registerRoomEvents from './RoomEvents';
+import registerRoomListeners from './RoomListener';
 
 
 /*TODO
@@ -13,10 +15,12 @@ import { Observable } from 'rxjs';
 })
 export class SocketService {
   private socket: Socket;
+  registerRoomStuff;
 
   constructor() {
     //this.socket = io('https://backend-test-3jyw.onrender.com'); // Connect to Node.js backend
     this.socket = io('ws://localhost:3000');
+    this.registerRoomStuff = registerRoomListeners(this.socket);
   }
 
   createRoom(gameId: String) {
