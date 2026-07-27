@@ -23,11 +23,13 @@ export class SocketService {
     this.registerRoomStuff = registerRoomListeners(this.socket);
   }
 
-  createRoom(gameId: String) {
-    this.socket.emit('createRoom', { id: gameId, data: '' });
+  createRoom(gameId: number) {
+    return this.socket.emit('createRoom', gameId, (response: any) => {
+      return response.status !== "error";
+    });
   }
 
-  joinRoom(gameId: String) {
+  joinRoom(gameId: number) {
     this.socket.emit('joinRoom', { id: gameId, data: '' });
   }
 

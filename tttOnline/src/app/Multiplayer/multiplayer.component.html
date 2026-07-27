@@ -4,6 +4,11 @@
 <input type = "text" id = "room" #userInput placeholder= "room_id">
 <button (click) = "create(userInput.value)">Create Room</button>
 <button (click) = "join(userInput.value)">Join Room</button>
+<div>
+  @if (hasRoom){
+    <h1> The current room number is: {{room}}</h1>
+  }
+</div>
 <div class = "table">
 
   @for(row of board; let i = $index; track i){

@@ -14,6 +14,8 @@ export class Multiplayer {
     [-1, -1, -1],
   ];
 
+  room: number = -1;
+  hasRoom: boolean = false;
   socket: SocketService = new SocketService();
 
   constructor() {
@@ -31,11 +33,22 @@ export class Multiplayer {
 
   }
 
-  create(roomid: String){
-    this.socket.createRoom(roomid);
+  create(roomId: String){
+    var id: number = +roomId;
+    var a = this.socket.createRoom(id);
+    console.log(a);
+    console.log("test a ");
+    if(a){
+      this.room = id;
+      this.hasRoom = true;
+    }
+    else{
+      this.hasRoom = false;
+    }
   }
 
-  join(roomid: String){
-    this.socket.joinRoom(roomid);
+  join(roomId: String){
+    var id: number = +roomId;
+    this.socket.joinRoom(id);
   }
 }

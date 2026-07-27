@@ -11,7 +11,7 @@ export default function registerRoomListeners(socket: Socket): Observable<any> {
       });
 
       socket.on("room:created", (data) => {
-        console.log("Room created worked");
+        console.log("Room created message received.")
         console.log(data);
         subscriber.next(data);
       })
