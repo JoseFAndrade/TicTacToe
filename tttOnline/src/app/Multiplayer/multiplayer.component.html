@@ -1,21 +1,54 @@
 <p>multi works!</p>
 
-<label> Enter room id for either creation or joining of a lobby</label>
-<input type = "text" id = "room" #userInput placeholder= "room_id">
-<button (click) = "create(userInput.value)">Create Room</button>
-<button (click) = "join(userInput.value)">Join Room</button>
+
+
+@if(room() === -1)
+{
+  <label> Enter room id for either creation or joining of a lobby</label>
+  <input type = "text" id = "room" #userInput placeholder= "room_id">
+  <button (click) = "create(userInput.value)">Create Room</button>
+  <button (click) = "join(userInput.value)">Join Room</button>
+}
+
+@if(hostWork == false && displayCreate == true)
+{
+  <p style = "color: red"> Creating a room with this number has not worked. Please try another number instead</p>
+} @else if(hostWork == true && displayCreate == true) {
+  <p style = "color: green"> You have created the room successfully</p>
+}
+
+@if(joinWork == false && displayJoin == true){
+  <p style = "color: red"> You have been unable to join this room. Make sure you have the correct number.</p>
+} @else if (joinWork == true && displayJoin == true){
+  <p style = "color: green"> You have joined the room successfully</p>
+}
+
+@if(latestMove == true){
+  <p> {{message}}</p>
+}
+
 <div>
-  @if (hasRoom){
-    <h1> The current room number is: {{room}}</h1>
+  @if (room() !== -1){
+    <h1> The current room number is: {{room()}}</h1>
   }
 </div>
 <div class = "table">
 
   @for(row of board; let i = $index; track i){
     @for(column of board[$index]; let j = $index; track j){
-
       <div (click) = "onTileClick($event, i,j)" > {{i}} {{j}} </div>
     }
   }
+  @if (x !== -1 && y !== -1){
+    <p> Your current selection is: {{x}} {{y}}</p>
+    <button (click) = "makeMove()"> Submit Choice</button>
+}
+</div>
+
+<div>
+
+  <h4> Log: </h4>
+  <p> {{log()}} </p>
+
 </div>
 

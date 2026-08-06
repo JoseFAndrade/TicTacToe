@@ -20,21 +20,30 @@ export class SocketService {
   constructor() {
     //this.socket = io('https://backend-test-3jyw.onrender.com'); // Connect to Node.js backend
     this.socket = io('ws://localhost:3000');
+
     this.registerRoomStuff = registerRoomListeners(this.socket);
   }
 
-  createRoom(gameId: number) {
-    return this.socket.emit('createRoom', gameId, (response: any) => {
-      return response.status !== "error";
-    });
+  async createRoom(gameId: number) {
+    /**return this.socket.timeout(5000).emit('createRoom', gameId, (response: any) => {
+      console.log(response);
+      console.log(response.status);
+      return response.status === "error";
+    });*/
+    const response = await this.socket.emitWithAck('createRoom', gameId);
+    return response.status !== 'error';
   }
 
-  joinRoom(gameId: number) {
-    this.socket.emit('joinRoom', { id: gameId, data: '' });
+  async joinRoom(gameId: number) {
+    //this.socket.emit('joinRoom', { id: gameId, data: '' });
+    const response = await this.socket.emitWithAck('joinRoom', gameId);
+    return response.status !== 'error';
   }
 
-  makeMove(gameId: string, moveData: any) {
-    this.socket.emit('makeMove', { gameId, moveData });
+  async makeMove(gameId: number, moveData: any) {
+    //this.socket.emit('makeMove', { gameId, moveData });
+    const response = await this.socket.emitWithAck('gameMove', gameId, moveData);
+    return response.status !== 'error';
   }
 
   listenToRoomEvents(): Observable<any> {
@@ -56,6 +65,12 @@ export class SocketService {
       });
     });
   }
+
+  getId(){
+    return this.socket.id;
+  }
+
+
 
   // Add additional listeners for 'gameCreated' and 'playerJoined' as needed
 }
