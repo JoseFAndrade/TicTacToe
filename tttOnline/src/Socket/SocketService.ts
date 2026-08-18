@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
 import registerRoomEvents from './RoomEvents';
-import registerRoomListeners from './RoomListener';
+import { registerGameEnd, registerMoveListener, registerPlayerJoined } from './RoomListener';
 
 
 /*TODO
@@ -15,13 +15,16 @@ import registerRoomListeners from './RoomListener';
 })
 export class SocketService {
   private socket: Socket;
-  registerRoomStuff;
-
+  registerMoveListener;
+  registerGameEnd;
+  registerPlayerJoin;
   constructor() {
     //this.socket = io('https://backend-test-3jyw.onrender.com'); // Connect to Node.js backend
     this.socket = io('ws://localhost:3000');
 
-    this.registerRoomStuff = registerRoomListeners(this.socket);
+    this.registerGameEnd = registerGameEnd(this.socket);
+    this.registerPlayerJoin = registerPlayerJoined(this.socket);
+    this.registerMoveListener = registerMoveListener(this.socket);
   }
 
   async createRoom(gameId: number) {
@@ -43,7 +46,7 @@ export class SocketService {
   async makeMove(gameId: number, moveData: any) {
     //this.socket.emit('makeMove', { gameId, moveData });
     const response = await this.socket.emitWithAck('gameMove', gameId, moveData);
-    return response.status !== 'error';
+    return response.status;
   }
 
   listenToRoomEvents(): Observable<any> {
@@ -66,8 +69,8 @@ export class SocketService {
     });
   }
 
-  getId(){
-    return this.socket.id;
+  getId(): string {
+    return <string>this.socket.id;
   }
 
 

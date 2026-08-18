@@ -7,6 +7,11 @@ import { SocketService } from '../../Socket/SocketService';
   templateUrl: './multiplayer.component.html',
   styleUrl: './multiplayer.component.css',
 })
+
+/**TODO
+ * integrate a stop to the game until it detects two players -> WIP
+ * fix the fact that all messages are going through one function - check -> maybe removed these functions idk it kind of helps to decouple
+ */
 export class Multiplayer {
   /*
   board: number[][] = [
@@ -44,23 +49,29 @@ export class Multiplayer {
         this.board[i][y] = '-1';
       }
     }
-    console.log(this.board);
 
-    this.socket.registerRoomStuff.subscribe((data) => {
-      console.log('message received?');
-      console.log(data);
+    this.socket.registerGameEnd.subscribe((data) => {
+      this.log.set("The game has currently ended. The grid will not update anymore. The winner is: " + data[0]);
 
-      if(this.is2DArray(data[0])){
-        console.log("Wtf");
-        this.board = data[0] as string[][];
-      }
-
-      //this.board = data[0];
-
-      this.log.set(data[3] + 'The move made: ' + data[1] + ' ' + data[2]);
     });
 
-    console.log(this.hostWork);
+    this.socket.registerPlayerJoin.subscribe((data) => {
+      console.log(data);
+      this.log.set("The player " + data[0] + " has joined the room");
+    })
+
+    this.socket.registerMoveListener.subscribe((data) => {
+      //data coming in => grid,x, y, playerId, log
+      console.log(data);
+
+      this.board = data[0];
+
+      this.log.set(data[4] + "The move that was made was: " + data[1]+ data[2]);
+      //this.log.set(data[3] + 'The move made: ' + data[1] + ' ' + data[2]);
+    });
+
+    console.log(this.board);
+    console.log(this.socket.getId());
   }
 
   //TODO: decide whether we should just be obtaining the boolean or the entire callback data including the message
@@ -92,8 +103,12 @@ export class Multiplayer {
 
     if (message) {
       this.room.set(id);
+      this.joinWork = true;
+      this.displayJoin = true;
     } else {
       alert('Room does not exist try to join a room that has a player');
+      this.joinWork = false;
+      this.displayJoin = true;
       this.room.set(-1);
     }
   }
@@ -103,9 +118,17 @@ export class Multiplayer {
     let list: any[] = [this.socket.getId(), [this.x, this.y]];
     this.renderer.setStyle(this.cachedTag, 'background-color', 'blue');
     var response = await this.socket.makeMove(this.room(), list);
-    if (response) {
+    if (response === "ok") {
       alert('The move worked');
       console.log('move worked');
+    }
+    else if( response === "error-two") {
+      alert("Please wait until another player connects to the lobby. The log will update when another player joins");
+      this.renderer.setStyle(this.cachedTag, 'background-color', 'black');
+    }
+    else{
+      this.renderer.setStyle(this.cachedTag, 'background-color', "black");
+      this.log.set("Please wait your turn. It is currently the other players turn");
     }
   }
 }
