@@ -20,16 +20,20 @@ export class Multiplayer {
     [-1, -1, -1],
   ];*/
 
+  display = false;
+  displayMessage = signal("");
+  selectedColor = "";
   board: string[][] = new Array(3).fill(new Array(3).fill("-1"));
 
   room = signal(-1);
-  hostWork: boolean = false;
-  joinWork: boolean = false;
-  displayCreate: boolean = false;
-  displayJoin: boolean = false;
+  //hostWork: boolean = false;
+  //joinWork: boolean = false;
+  //displayCreate: boolean = false;
+  //displayJoin: boolean = false;
   log = signal('');
   latestMove: boolean = false;
   message: String = '';
+  firstTurn = signal("");
 
   socket: SocketService = new SocketService();
 
@@ -70,6 +74,12 @@ export class Multiplayer {
       //this.log.set(data[3] + 'The move made: ' + data[1] + ' ' + data[2]);
     });
 
+    this.socket.registerTurn.subscribe((data) => {
+      console.log(data[0]);
+      console.log("message 2");
+      this.firstTurn.set(data[0]);
+    });
+
     console.log(this.board);
     console.log(this.socket.getId());
   }
@@ -83,16 +93,19 @@ export class Multiplayer {
   }
 
   async create(roomId: String) {
-    this.displayCreate = true;
-    this.displayJoin = false;
+    //this.displayCreate = true;
+    //this.displayJoin = false;
+
+    this.display = true;
     var id: number = +roomId;
     var message = await this.socket.createRoom(id);
     if (message) {
-      this.hostWork = true;
-      console.log('what');
+      this.displayMessage.set('You have created the room successfully');
+      this.selectedColor = "green";
       this.room.set(id);
     } else {
-      this.hostWork = false;
+      this.displayMessage.set('Creating a room with this number has not worked. Please try another number instead');
+      this.selectedColor = "red";
       this.room.set(-1);
     }
   }
@@ -103,12 +116,14 @@ export class Multiplayer {
 
     if (message) {
       this.room.set(id);
-      this.joinWork = true;
-      this.displayJoin = true;
+      this.displayMessage.set('You have created the room successfully');
+      this.selectedColor = "green";
     } else {
-      alert('Room does not exist try to join a room that has a player');
-      this.joinWork = false;
-      this.displayJoin = true;
+      //alert('Room does not exist try to join a room that has a player');
+      this.displayMessage.set(
+        'Creating a room with this number has not worked. Please try another number instead',
+      );
+      this.selectedColor = "red";
       this.room.set(-1);
     }
   }

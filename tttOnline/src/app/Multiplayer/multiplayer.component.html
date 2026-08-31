@@ -10,6 +10,12 @@
   <button (click) = "join(userInput.value)">Join Room</button>
 }
 
+
+@if(display == true){
+  <p [style.color]="selectedColor"> {{displayMessage()}} </p>
+}
+
+<!--
 @if(hostWork == false && displayCreate == true)
 {
   <p style = "color: red"> Creating a room with this number has not worked. Please try another number instead</p>
@@ -22,7 +28,7 @@
 } @else if (joinWork == true && displayJoin == true){
   <p style = "color: green"> You have joined the room successfully</p>
 }
-
+-->
 @if(latestMove == true){
   <p> {{message}}</p>
 }
@@ -30,6 +36,15 @@
 <div>
   @if (room() !== -1){
     <h1> The current room number is: {{room()}}</h1>
+  }
+
+  @if(firstTurn() !== ""){
+    @if(firstTurn() === socket.getId()){
+      <p> Its your current turn. </p>
+    }
+    @else{
+      <p> The other player is currently moving.</p>
+    }
   }
 </div>
 <div class = "table">

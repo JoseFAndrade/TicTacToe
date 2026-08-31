@@ -4,6 +4,17 @@ import { Socket } from 'socket.io-client';
 const roomEvents = ['room:created', 'room:error', 'room:full-players', 'room:player-joined'];
 
 
+
+export function registerTurn(socket: Socket): Observable<any> {
+  return new Observable(subscriber => {
+    socket.on('game_update:player-turn', (...data) => {
+      subscriber.next(data);
+    });
+  });
+}
+
+
+
 export function registerGameEnd(socket: Socket): Observable<any> {
     return new Observable(subscriber => {
       socket.on('game_update:game-end', (... data) => {

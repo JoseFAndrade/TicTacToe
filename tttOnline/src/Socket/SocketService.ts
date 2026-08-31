@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
 import registerRoomEvents from './RoomEvents';
-import { registerGameEnd, registerMoveListener, registerPlayerJoined } from './RoomListener';
+import {
+  registerGameEnd,
+  registerMoveListener,
+  registerPlayerJoined,
+  registerTurn,
+} from './RoomListener';
 
 
 /*TODO
@@ -18,13 +23,15 @@ export class SocketService {
   registerMoveListener;
   registerGameEnd;
   registerPlayerJoin;
+  registerTurn;
   constructor() {
-    //this.socket = io('https://backend-test-3jyw.onrender.com'); // Connect to Node.js backend
-    this.socket = io('ws://localhost:3000');
+    this.socket = io('https://backend-test-3jyw.onrender.com'); // Connect to Node.js backend
+    //this.socket = io('ws://localhost:3000');
 
     this.registerGameEnd = registerGameEnd(this.socket);
     this.registerPlayerJoin = registerPlayerJoined(this.socket);
     this.registerMoveListener = registerMoveListener(this.socket);
+    this.registerTurn = registerTurn(this.socket);
   }
 
   async createRoom(gameId: number) {
