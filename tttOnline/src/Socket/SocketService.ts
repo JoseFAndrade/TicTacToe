@@ -3,6 +3,7 @@ import { io, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
 import registerRoomEvents from './RoomEvents';
 import {
+  registerDisconnect,
   registerGameEnd,
   registerMoveListener,
   registerPlayerJoined,
@@ -24,14 +25,16 @@ export class SocketService {
   registerGameEnd;
   registerPlayerJoin;
   registerTurn;
+  registerDisconnect;
   constructor() {
-    this.socket = io('https://backend-test-3jyw.onrender.com'); // Connect to Node.js backend
-    //this.socket = io('ws://localhost:3000');
+    //this.socket = io('https://backend-test-3jyw.onrender.com'); // Connect to Node.js backend
+    this.socket = io('ws://localhost:3000');
 
     this.registerGameEnd = registerGameEnd(this.socket);
     this.registerPlayerJoin = registerPlayerJoined(this.socket);
     this.registerMoveListener = registerMoveListener(this.socket);
     this.registerTurn = registerTurn(this.socket);
+    this.registerDisconnect = registerDisconnect(this.socket);
   }
 
   async createRoom(gameId: number) {

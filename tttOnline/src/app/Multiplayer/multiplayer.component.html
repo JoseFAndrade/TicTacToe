@@ -15,22 +15,9 @@
   <p [style.color]="selectedColor"> {{displayMessage()}} </p>
 }
 
-<!--
-@if(hostWork == false && displayCreate == true)
-{
-  <p style = "color: red"> Creating a room with this number has not worked. Please try another number instead</p>
-} @else if(hostWork == true && displayCreate == true) {
-  <p style = "color: green"> You have created the room successfully</p>
-}
 
-@if(joinWork == false && displayJoin == true){
-  <p style = "color: red"> You have been unable to join this room. Make sure you have the correct number.</p>
-} @else if (joinWork == true && displayJoin == true){
-  <p style = "color: green"> You have joined the room successfully</p>
-}
--->
 @if(latestMove == true){
-  <p> {{message}}</p>
+  <p> what {{message}}</p>
 }
 
 <div>

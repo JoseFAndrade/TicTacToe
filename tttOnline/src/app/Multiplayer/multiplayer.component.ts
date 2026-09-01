@@ -80,6 +80,12 @@ export class Multiplayer {
       this.firstTurn.set(data[0]);
     });
 
+    this.socket.registerDisconnect.subscribe((data) => {
+      console.log("what");
+      alert("Sorry but there was a disconnection with the 'host' of the room. This page will now refresh.");
+      window.location.reload();
+    })
+
     console.log(this.board);
     console.log(this.socket.getId());
   }
@@ -113,7 +119,7 @@ export class Multiplayer {
   async join(roomId: String) {
     var id: number = +roomId;
     var message = await this.socket.joinRoom(id);
-
+    this.display = true;
     if (message) {
       this.room.set(id);
       this.displayMessage.set('You have created the room successfully');
@@ -140,6 +146,10 @@ export class Multiplayer {
     else if( response === "error-two") {
       alert("Please wait until another player connects to the lobby. The log will update when another player joins");
       this.renderer.setStyle(this.cachedTag, 'background-color', 'black');
+    }
+    else if( response === "error-connection"){
+      alert("Sorry but there was a disconnection with the 'host' of the room. This page will now refresh.");
+      window.location.reload();
     }
     else{
       this.renderer.setStyle(this.cachedTag, 'background-color', "black");

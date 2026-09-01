@@ -33,6 +33,15 @@ export function registerPlayerJoined(socket: Socket): Observable<any> {
     });
 }
 
+export function registerDisconnect(socket: Socket): Observable<any> {
+  return new Observable(subscriber => {
+    socket.on("disconnect", (reason, description) => {
+      //maybe in the future this will be more detailed and contain a more specific way of handling different errors
+      subscriber.next("disconnect");
+    });
+  });
+}
+
 export function registerMoveListener(socket: Socket): Observable<any> {
     return new Observable(subscriber => {
       socket.on('game_update:game-move', (... data) => {
