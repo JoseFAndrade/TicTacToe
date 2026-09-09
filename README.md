@@ -1,5 +1,5 @@
 # TicTacToe Online Project 
- - This is the front-end side of the implementation 
+ <small>This is the front-end side of the implementation. </small>
 
 This is a simple online tic tac toe game where users can face off against each other using rooms.
 
