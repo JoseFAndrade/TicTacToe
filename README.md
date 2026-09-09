@@ -1,7 +1,7 @@
 # TicTacToe Online Project 
  <sub>This is the front-end side of the implementation. </sub>
 
-This is a simple online tic tac toe game where users can face off against each other using rooms.
+  This is a simple online tic tac toe game where users can face off against each other using rooms.
 
 # Technology Stack
 
@@ -12,9 +12,9 @@ This is a simple online tic tac toe game where users can face off against each o
 
 # Why I created this project
 
-I wanted to learn and understand how online applications interact with one another as well as interact with a backend server that helps keep data
-consistent between two clients. In order to do so I thought that it would be best to create a simple application that utilizes socket communication while 
-also having a backend as a middle man in order to prevent any user from cheating in the game. 
+  I wanted to learn and understand how online applications interact with one another as well as interact with a backend server that helps keep data
+  consistent between two clients. In order to do so I thought that it would be best to create a simple application that utilizes socket communication while 
+  also having a backend as a middle man in order to prevent any user from cheating in the game. 
 
 # Problems that I faced or am facing
 - UI/UX: My UI skills are not up to par to where I would like to be. I lack a lot of knowledge in how to make a UI look nice without overthinking it. This is something that I
