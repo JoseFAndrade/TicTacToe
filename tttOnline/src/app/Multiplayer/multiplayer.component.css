@@ -11,3 +11,15 @@
   background-color: black;
   color:white;
 }
+
+.container{
+  display: flex;
+
+  justify-content: center;
+  flex-flow: column wrap;
+}
+
+.div {
+  justify-content: center;
+
+}

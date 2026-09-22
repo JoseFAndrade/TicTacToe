@@ -27,8 +27,16 @@ export class SocketService {
   registerTurn;
   registerDisconnect;
   constructor() {
-    //this.socket = io('https://backend-test-3jyw.onrender.com'); // Connect to Node.js backend
-    this.socket = io('ws://localhost:3000');
+    this.socket = io('https://backend-test-3jyw.onrender.com',
+    //this.socket = io('ws://localhost:3000',
+      {
+      reconnection: true, // Enable automatic reconnection (default: true)
+      reconnectionAttempts: Infinity, // Keep trying to reconnect
+      reconnectionDelay: 1000, // Start waiting 1 second before first retry
+      reconnectionDelayMax: 5000, // Maximum wait time between retries (e.g., 5s)
+      timeout: 20000,
+      }); // Connect to Node.js backend
+    //this.socket = io('ws://localhost:3000');
 
     this.registerGameEnd = registerGameEnd(this.socket);
     this.registerPlayerJoin = registerPlayerJoined(this.socket);

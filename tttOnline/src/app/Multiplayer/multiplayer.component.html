@@ -1,62 +1,74 @@
 <p>multi works!</p>
 
 
+<div class = "container">
 
-@if(room() === -1)
-{
-  <label> Enter room id for either creation or joining of a lobby</label>
-  <input type = "text" id = "room" #userInput placeholder= "room_id">
-  <button (click) = "create(userInput.value)">Create Room</button>
-  <button (click) = "join(userInput.value)">Join Room</button>
-}
+  <div class = "room">
+    @if(room() === -1)
+    {
+      <label> Enter room id for either creation or joining of a lobby</label>
+      <input type = "text" id = "room" #userInput placeholder= "room_id">
+      <button (click) = "create(userInput.value)">Create Room</button>
+      <button (click) = "join(userInput.value)">Join Room</button>
+    }
+  </div>
+
+  <div class="message">
+
+    @if(display == true){
+      <p [style.color]="selectedColor"> {{displayMessage()}} </p>
+    }
+
+  </div>
 
 
-@if(display == true){
-  <p [style.color]="selectedColor"> {{displayMessage()}} </p>
-}
-
-
-@if(latestMove == true){
-  <p> what {{message}}</p>
-}
-
-<div>
-  @if (room() !== -1){
-    <h1> The current room number is: {{room()}}</h1>
+  @if(latestMove == true){
+    <p> what {{message}}</p>
   }
 
-  @if(firstTurn() !== ""){
-    @if(firstTurn() === socket.getId()){
-      <p> Its your current turn. </p>
+  <div>
+    @if (room() !== -1){
+      <h1> The current room number is: {{room()}}</h1>
     }
-    @else{
-      <p> The other player is currently moving.</p>
-    }
-  }
-</div>
-<div class = "table">
 
-  @for(row of board; let i = $index; track i){
-    @for(column of board[$index]; let j = $index; track j){
-      @if( this.socket.getId() == board[i][j] ){
-        <div style="background-color: blue " (click) = "onTileClick($event, i,j)" > {{i}} {{j}} </div>
-      } @else if(board[i][j] == "-1" ){
-        <div style="background-color: black " (click) = "onTileClick($event, i,j)" > {{i}} {{j}} </div>
-      } @else {
-        <div style="background-color: red " (click) = "onTileClick($event, i,j)" > {{i}} {{j}} </div>
+    @if(firstTurn() !== ""){
+      @if(firstTurn() === socket.getId()){
+        <p> Its your current turn. </p>
+      }
+      @else{
+        <p> The other player is currently moving.</p>
       }
     }
-  }
-  @if (x !== -1 && y !== -1){
-    <p> Your current selection is: {{x}} {{y}}</p>
-    <button (click) = "makeMove()"> Submit Choice</button>
-}
+  </div>
+  <div class = "table">
+
+    @for(row of board; let i = $index; track i){
+      @for(column of board[$index]; let j = $index; track j){
+        @if( this.socket.getId() == board[i][j] ){
+          <div style="background-color: blue " (click) = "onTileClick($event, i,j)" > {{i}} {{j}} </div>
+        } @else if(board[i][j] == "-1" ){
+          <div style="background-color: black " (click) = "onTileClick($event, i,j)" > {{i}} {{j}} </div>
+        } @else {
+          <div style="background-color: red " (click) = "onTileClick($event, i,j)" > {{i}} {{j}} </div>
+        }
+      }
+    }
+    @if (x !== -1 && y !== -1){
+      <p> Your current selection is: {{x}} {{y}}</p>
+      <button (click) = "makeMove()"> Submit Choice</button>
+    }
+  </div>
+
+  <div>
+
+    <h4> Log: </h4>
+    <p> {{log()}} </p>
+
+  </div>
+
 </div>
 
-<div>
 
-  <h4> Log: </h4>
-  <p> {{log()}} </p>
 
-</div>
+
 
