@@ -1,8 +1,17 @@
+::ng-deep body  {
+  background-color: black;
+}
+
+
 .table {
   display: grid;
   grid-gap: 10px;
   grid-template-columns: repeat(3, 150px);
   grid-template-rows: repeat(3,150px);
+  justify-content: center;
+  padding: 20px;
+  /* temporary*/
+  rule: 2px solid white;
 }
 
 .table > div {
@@ -14,12 +23,12 @@
 
 .container{
   display: flex;
-
-  justify-content: center;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
+  text-align: center;
+  color:white;
 }
 
 .div {
-  justify-content: center;
+
 
 }

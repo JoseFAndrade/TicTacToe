@@ -27,8 +27,8 @@ export class SocketService {
   registerTurn;
   registerDisconnect;
   constructor() {
-    this.socket = io('https://backend-test-3jyw.onrender.com',
-    //this.socket = io('ws://localhost:3000',
+    //this.socket = io('https://backend-test-3jyw.onrender.com',
+    this.socket = io('ws://localhost:3000',
       {
       reconnection: true, // Enable automatic reconnection (default: true)
       reconnectionAttempts: Infinity, // Keep trying to reconnect

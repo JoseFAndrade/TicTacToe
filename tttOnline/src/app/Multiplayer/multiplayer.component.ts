@@ -55,8 +55,11 @@ export class Multiplayer {
     }
 
     this.socket.registerGameEnd.subscribe((data) => {
-      this.log.set("The game has currently ended. The grid will not update anymore. The winner is: " + data[0]);
-
+      console.log("message of game ending received");
+      if(data[0] == this.socket.getId())
+        this.log.set("The game has currently ended. The grid will not update anymore. You are the winner."5);
+      else
+        this.log.set("The game has currently ended. The grid will not update anymore. The other player has won the game.")
     });
 
     this.socket.registerPlayerJoin.subscribe((data) => {
@@ -140,7 +143,7 @@ export class Multiplayer {
     this.renderer.setStyle(this.cachedTag, 'background-color', 'blue');
     var response = await this.socket.makeMove(this.room(), list);
     if (response === "ok") {
-      alert('The move worked');
+      //alert('The move worked');
       console.log('move worked');
     }
     else if( response === "error-two") {
