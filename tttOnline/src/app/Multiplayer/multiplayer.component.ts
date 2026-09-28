@@ -47,17 +47,19 @@ export class Multiplayer {
   }
 
   constructor() {
-    console.log('testing');
     for(var i = 0; i < 3; i++){
       for(var y = 0; y < 3; y++){
         this.board[i][y] = '-1';
       }
     }
 
+    this.socket.registerError.subscribe((data) =>{
+      this.log.set("There is some sort of issue with the server. For specifics look at this message: " + data);
+    })
+
     this.socket.registerGameEnd.subscribe((data) => {
-      console.log("message of game ending received");
       if(data[0] == this.socket.getId())
-        this.log.set("The game has currently ended. The grid will not update anymore. You are the winner."5);
+        this.log.set("The game has currently ended. The grid will not update anymore. You are the winner.");
       else
         this.log.set("The game has currently ended. The grid will not update anymore. The other player has won the game.")
     });
@@ -140,11 +142,12 @@ export class Multiplayer {
   async makeMove() {
     console.log('what');
     let list: any[] = [this.socket.getId(), [this.x, this.y]];
-    this.renderer.setStyle(this.cachedTag, 'background-color', 'blue');
     var response = await this.socket.makeMove(this.room(), list);
+    console.log(response);
     if (response === "ok") {
       //alert('The move worked');
       console.log('move worked');
+      this.renderer.setStyle(this.cachedTag, 'background-color', 'blue');
     }
     else if( response === "error-two") {
       alert("Please wait until another player connects to the lobby. The log will update when another player joins");

@@ -4,6 +4,13 @@ import { Socket } from 'socket.io-client';
 const roomEvents = ['room:created', 'room:error', 'room:full-players', 'room:player-joined'];
 
 
+export function registerError(socket: Socket): Observable<any>{
+  return new Observable(subscriber => {
+    socket.on("connect_error", (error) =>{
+      subscriber.next(error);
+    })
+  })
+}
 
 export function registerTurn(socket: Socket): Observable<any> {
   return new Observable(subscriber => {

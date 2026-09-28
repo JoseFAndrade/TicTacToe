@@ -6,7 +6,7 @@
   <div class = "room">
     @if(room() === -1)
     {
-      <label> Enter room id for either creation or joining of a lobby</label>
+      <label> Enter room id for either creation or joining of a lobby </label>
       <input type = "text" id = "room" #userInput placeholder= "room_id">
       <button (click) = "create(userInput.value)">Create Room</button>
       <button (click) = "join(userInput.value)">Join Room</button>
@@ -53,11 +53,11 @@
         }
       }
     }
+    </div>
     @if (x !== -1 && y !== -1){
       <p> Your current selection is: {{x}} {{y}}</p>
-      <button (click) = "makeMove()"> Submit Choice</button>
+      <button (click) = "makeMove()" style="align-self: center; padding:10px"> Submit Choice</button>
     }
-  </div>
 
   <div>
 
