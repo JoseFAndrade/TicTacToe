@@ -3,6 +3,7 @@ import { io, Socket } from 'socket.io-client';
 import { Observable } from 'rxjs';
 import registerRoomEvents from './RoomEvents';
 import {
+  playersInLobby,
   registerDisconnect, registerError,
   registerGameEnd,
   registerMoveListener,
@@ -27,9 +28,10 @@ export class SocketService {
   registerTurn;
   registerDisconnect;
   registerError: Observable<any>;
+  playersInlobby: Observable<any>;
   constructor() {
-    this.socket = io('https://backend-test-3jyw.onrender.com',
-    //this.socket = io('ws://localhost:3000',
+    //this.socket = io('https://backend-test-3jyw.onrender.com',
+    this.socket = io('ws://localhost:3000',
       {
       reconnection: true, // Enable automatic reconnection (default: true)
       reconnectionAttempts: Infinity, // Keep trying to reconnect
@@ -45,6 +47,7 @@ export class SocketService {
     this.registerTurn = registerTurn(this.socket);
     this.registerDisconnect = registerDisconnect(this.socket);
     this.registerError = registerError(this.socket);
+    this.playersInlobby = playersInLobby(this.socket);
   }
 
   async createRoom(gameId: number) {

@@ -4,6 +4,14 @@ import { Socket } from 'socket.io-client';
 const roomEvents = ['room:created', 'room:error', 'room:full-players', 'room:player-joined'];
 
 
+export function playersInLobby(socket: Socket): Observable<any> {
+    return new Observable(subscriber => {
+        socket.on('lobby_update:player-list', (data) =>{
+            subscriber.next(data);
+        });
+    })
+}
+
 export function registerError(socket: Socket): Observable<any>{
   return new Observable(subscriber => {
     socket.on("connect_error", (error) =>{

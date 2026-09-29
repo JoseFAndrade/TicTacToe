@@ -1,5 +1,14 @@
-import { Component, inject, OnInit, Renderer2, Signal, signal } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  Renderer2,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { SocketService } from '../../Socket/SocketService';
+import {playersInLobby} from "../../Socket/RoomListener";
 
 @Component({
   selector: 'app-multi',
@@ -20,16 +29,12 @@ export class Multiplayer {
     [-1, -1, -1],
   ];*/
 
-  display = false;
+  display = true;
   displayMessage = signal("");
-  selectedColor = "";
+  selectedColor = "red";
   board: string[][] = new Array(3).fill(new Array(3).fill("-1"));
 
   room = signal(-1);
-  //hostWork: boolean = false;
-  //joinWork: boolean = false;
-  //displayCreate: boolean = false;
-  //displayJoin: boolean = false;
   log = signal('');
   latestMove: boolean = false;
   message: String = '';
@@ -42,9 +47,7 @@ export class Multiplayer {
   cachedTag: HTMLElement | undefined;
   private renderer = inject(Renderer2);
 
-  is2DArray<T>(value: any): value is T[][] {
-    return Array.isArray(value) && (value.length === 0 || Array.isArray(value[0]));
-  }
+  roomPlayers: WritableSignal<string[]> = signal([]);
 
   constructor() {
     for(var i = 0; i < 3; i++){
@@ -63,6 +66,12 @@ export class Multiplayer {
       else
         this.log.set("The game has currently ended. The grid will not update anymore. The other player has won the game.")
     });
+
+    this.socket.playersInlobby.subscribe((data) => {
+      console.log(data);
+      console.log('^^^^^^^^^^^^^^^');
+      this.roomPlayers.set(data);
+    })
 
     this.socket.registerPlayerJoin.subscribe((data) => {
       console.log(data);
@@ -90,9 +99,6 @@ export class Multiplayer {
       alert("Sorry but there was a disconnection with the 'host' of the room. This page will now refresh.");
       window.location.reload();
     })
-
-    console.log(this.board);
-    console.log(this.socket.getId());
   }
 
   //TODO: decide whether we should just be obtaining the boolean or the entire callback data including the message
@@ -101,6 +107,8 @@ export class Multiplayer {
     this.x = x;
     this.y = y;
     this.cachedTag = event.target as HTMLElement;
+
+    this.makeMove();
   }
 
   async create(roomId: String) {
@@ -144,6 +152,14 @@ export class Multiplayer {
     let list: any[] = [this.socket.getId(), [this.x, this.y]];
     var response = await this.socket.makeMove(this.room(), list);
     console.log(response);
+
+    if(this.room() == -1){
+      console.log("no room");
+      this.display = true;
+      //this.selectedColor = 'Red';
+      this.displayMessage.set("Please make sure to join a room before trying to play a game. ")
+      return;
+    }
     if (response === "ok") {
       //alert('The move worked');
       console.log('move worked');
