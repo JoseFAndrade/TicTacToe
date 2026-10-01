@@ -41,6 +41,7 @@ export class Multiplayer {
   firstTurn = signal("");
 
   socket: SocketService = new SocketService();
+  socketId: WritableSignal<string> = signal("");
 
   x: number = -1;
   y: number = -1;
@@ -55,6 +56,11 @@ export class Multiplayer {
         this.board[i][y] = '-1';
       }
     }
+
+
+    this.socket.onSocketID.subscribe((data) => {
+      this.socketId.set(data);
+    })
 
     this.socket.registerError.subscribe((data) =>{
       this.log.set("There is some sort of issue with the server. For specifics look at this message: " + data);
@@ -98,7 +104,9 @@ export class Multiplayer {
       console.log("what");
       alert("Sorry but there was a disconnection with the 'host' of the room. This page will now refresh.");
       window.location.reload();
-    })
+    });
+
+    console.log(this.socket.getId());
   }
 
   //TODO: decide whether we should just be obtaining the boolean or the entire callback data including the message

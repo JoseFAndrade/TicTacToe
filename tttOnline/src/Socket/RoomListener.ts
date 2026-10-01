@@ -3,6 +3,18 @@ import { Socket } from 'socket.io-client';
 
 const roomEvents = ['room:created', 'room:error', 'room:full-players', 'room:player-joined'];
 
+/**
+ * Terrible way of doing this because on connection was for some reason not working out for me will fix later
+ * @param socket
+ */
+export function registerSocketID(socket: Socket): Observable<any> {
+  return new Observable((subscriber) => {
+    socket.on('socketID', (data) => {
+      console.log(socket.id);
+      subscriber.next(socket.id);
+    });
+  });
+}
 
 export function playersInLobby(socket: Socket): Observable<any> {
     return new Observable(subscriber => {

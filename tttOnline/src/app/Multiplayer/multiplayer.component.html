@@ -13,6 +13,13 @@
     }
   </div>
 
+  @if(socketId()){
+    <div class = "nickname">
+      <label>Nickname</label>
+      <input type="text" id="username" #userInput: [placeholder] = "socketId()">
+    </div>
+  }
+
   <div class="message">
 
     @if(display == true){
