@@ -2,6 +2,51 @@
   background-color: black;
 }
 
+.container{
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1em;
+  text-align: center;
+  color:white;
+}
+
+.container .room {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  align-items: center;
+}
+
+.container .room input {
+  min-width: 100px;
+  padding: .5em;
+  border-radius: 6px;
+  border-color: #101a33
+}
+
+.container .btn-group {
+  display: flex;
+  gap: 1em;
+}
+
+.container .btn-group button {
+  padding: .5em 2em;
+  font-weight: bold;
+    border-radius: 6px;
+    line-height: 1;
+}
+
+.container .btn-group button#create-room {
+  background-color: #42bcf5;
+  border: 2px solid #42bcf5;
+  color: #101a33;
+}
+
+.container .btn-group button#join-room {
+  background-color: #101a33;
+  border: 2px solid #42bcf5;
+  color: #42bcf5;
+}
 
 .table {
   display: grid;
@@ -12,6 +57,7 @@
   padding: 20px;
   /* temporary*/
   rule: 2px solid white;
+  cursor: pointer;
 }
 
 .table > div {
@@ -21,18 +67,11 @@
   color:white;
 }
 
-.container{
-  display: flex;
-  flex-flow: column nowrap;
-  text-align: center;
-  color:white;
-}
-
-.players{
+.players:not(:empty){
   border: 2px solid #333333;
 }
 
-.div {
-
-
+.message:empty, .currentMove:empty, .players:empty {
+  display: none;
 }
+
