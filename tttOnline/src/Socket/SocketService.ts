@@ -74,6 +74,10 @@ export class SocketService {
     return response.status;
   }
 
+  async updateNickname(socketID: string, newName: string){
+    this.socket.emit('nickname', socketID, newName);
+  }
+
   listenToRoomEvents(): Observable<any> {
     return new Observable((subscriber) => {
       //this.socket;
