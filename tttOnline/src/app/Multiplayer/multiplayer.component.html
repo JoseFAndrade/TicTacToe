@@ -1,60 +1,79 @@
 <p>multi works!</p>
 
 
-<div class = "container">
-  <h1>Welcome to multi-player tic-tac-toe!</h1>
-  <div class = "room">
-    @if(room() === -1)
-    {
-      <label> Enter room id for either creation or joining of a lobby </label>
-      <input type = "text" id = "room" #userInput placeholder= "Enter a room ID">
-      <div class="btn-group">
-        <button id="create-room" (click) = "create(userInput.value)">Create Room</button>
-        <button id="join-room" (click) = "join(userInput.value)">Join Room</button>
+<div class="container">
+  <div class="game-rules">
+    <h1>Welcome to multi-player tic-tac-toe!</h1>
+    <p>To start playing, join an existing room with a code given to you, or create your own! Don't forget to give
+      yourself a username.</p>
+    <div class="top">
+
+      <div class="room">
+        @if(room() === -1)
+        {
+        <div class="user-inputs">
+          <div class="room-number">
+            <label>Enter a room code</label>
+            <input type="text" id="room" #userInput placeholder="ex. 1398">
+          </div>
+          <div class="nickname">
+            <!-- @if(socketId()){ -->
+            <label>Enter a username</label>
+            <!-- <input type="text" id="username" #userInput: [placeholder]="socketId()"> -->
+            <input type="text" id="username" #userInput placeholder="Alex">
+            <!-- } -->
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button id="create-room" (click)="create(userInput.value)">Create room</button>
+          <p>Already have a code from a friend? Enter it above and click on Join room.</p>
+          <button id="join-room" (click)="join(userInput.value)">Join room</button>
+        </div>
+
+        }
       </div>
 
-    }
+
+
+    </div>
   </div>
 
-  @if(socketId()){
-    <div class = "nickname">
-      <label>Nickname</label>
-      <input type="text" id="username" #userInput: [placeholder] = "socketId()">
-    </div>
-  }
 
+<div class="playing-area">
   <div class="message">
 
     @if(this.room() == -1){
     }
     @else {
-      <p [style.color]="selectedColor"> {{displayMessage()}} </p>
+    <p [style.color]="selectedColor"> {{displayMessage()}} </p>
 
     }
 
-      </div>
+  </div>
 
 
-      @if(latestMove == true){
-        <p> what {{message}}</p>
-      }
+  @if(latestMove == true){
+  <p> what {{message}}</p>
+  }
 
   <div class="currentMove">
     @if (room() !== -1){
-      <h1> The current room number is: {{room()}}</h1>
+    <h1> The current room number is: {{room()}}</h1>
     }
 
-        @if(firstTurn() !== ""){
-          @if(firstTurn() === socket.getId() ){
-            <p> Its your current turn. </p>
-          }
-          @else{
-            <p> The other player is currently moving.</p>
-          }
-        }
-      </div>
+    @if(firstTurn() !== ""){
+    @if(firstTurn() === socket.getId() ){
+    <p> Its your current turn. </p>
+    }
+    @else{
+    <p> The other player is currently moving.</p>
+    }
+    }
+  </div>
 
-      <div class = "room col-2">
+  <!--
+      <div class = "room">
         @if(room() === -1)
         {
           <label> Enter room id for either creation or joining of a lobby </label>
@@ -62,9 +81,10 @@
           <button (click) = "create(userInput.value)">Create Room</button>
           <button (click) = "join(userInput.value)">Join Room</button>
         }
-      </div>
+      </div>-->
 
-      <div class="col-3">
+  <!--
+      <div class="">
         @if(socketId()){
           <div>
             <h1>Insert name here</h1>
@@ -75,44 +95,39 @@
             <button (click) = "updateName(nameInput.value)"> Update </button>
           </div>
         }
-      </div>
-  </div>
-
+      </div>-->
   <div class="players">
     @for (players of this.roomPlayers(); track $index) {
-      <p> {{ players }} </p>
+    <p> {{ players }} </p>
 
     }
   </div>
-  <div class = "table">
+  <div class="table">
     @for(row of board; let i = $index; track i){
-      @for(column of board[$index]; let j = $index; track j){
-        @if( this.socket.getId() == board[i][j] ){
-          <div style="background-color: blue " (click) = "onTileClick($event, i,j)" >  </div>
-        } @else if(board[i][j] == "-1" ){
-          <div style="background-color: black " (click) = "onTileClick($event, i,j)" >  </div>
-        } @else {
-          <div style="background-color: red " (click) = "onTileClick($event, i,j)" > </div>
-        }
-      }
+    @for(column of board[$index]; let j = $index; track j){
+    @if( this.socket.getId() == board[i][j] ){
+    <div style="background-color: blue " (click)="onTileClick($event, i,j)"> </div>
+    } @else if(board[i][j] == "-1" ){
+    <div style="background-color: black " (click)="onTileClick($event, i,j)"> </div>
+    } @else {
+    <div style="background-color: red " (click)="onTileClick($event, i,j)"> </div>
     }
-    </div>
-    <!--
+    }
+    }
+  </div>
+  <!--
     @if (x !== -1 && y !== -1){
       <p> Your current selection is: {{x}} {{y}}</p>
       <button (click) = "makeMove()" style="align-self: center; padding:10px"> Submit Choice</button>
     }-->
 
-    <div>
+  <div>
 
     <h4> Log: </h4>
     <p> {{log()}} </p>
 
   </div>
-
 </div>
 
 
-
-
-
+</div>
