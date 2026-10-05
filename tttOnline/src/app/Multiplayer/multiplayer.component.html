@@ -32,27 +32,52 @@
 
     }
 
-  </div>
+      </div>
 
 
-  @if(latestMove == true){
-    <p> what {{message}}</p>
-  }
+      @if(latestMove == true){
+        <p> what {{message}}</p>
+      }
 
   <div class="currentMove">
     @if (room() !== -1){
       <h1> The current room number is: {{room()}}</h1>
     }
 
-    @if(firstTurn() !== ""){
-      @if(firstTurn() === socket.getId() ){
-        <p> Its your current turn. </p>
-      }
-      @else{
-        <p> The other player is currently moving.</p>
-      }
-    }
+        @if(firstTurn() !== ""){
+          @if(firstTurn() === socket.getId() ){
+            <p> Its your current turn. </p>
+          }
+          @else{
+            <p> The other player is currently moving.</p>
+          }
+        }
+      </div>
+
+      <div class = "room col-2">
+        @if(room() === -1)
+        {
+          <label> Enter room id for either creation or joining of a lobby </label>
+          <input type = "text" id = "room" #userInput placeholder= "room_id">
+          <button (click) = "create(userInput.value)">Create Room</button>
+          <button (click) = "join(userInput.value)">Join Room</button>
+        }
+      </div>
+
+      <div class="col-3">
+        @if(socketId()){
+          <div>
+            <h1>Insert name here</h1>
+          </div>
+          <div class = "nickname">
+            <label>Nickname </label>
+            <input type="text" id="username" #nameInput [placeholder] = "socketId()">
+            <button (click) = "updateName(nameInput.value)"> Update </button>
+          </div>
+        }
+      </div>
   </div>
+
   <div class="players">
     @for (players of this.roomPlayers(); track $index) {
       <p> {{ players }} </p>

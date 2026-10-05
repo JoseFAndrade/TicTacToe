@@ -186,4 +186,9 @@ export class Multiplayer {
       this.log.set("Please wait your turn. It is currently the other players turn");
     }
   }
+
+  /** we just hope it works**/
+  updateName(nameInput: string) {
+    this.socket.updateNickname(this.socketId(), nameInput);
+  }
 }

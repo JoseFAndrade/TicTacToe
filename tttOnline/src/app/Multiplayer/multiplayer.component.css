@@ -71,7 +71,42 @@
   border: 2px solid #333333;
 }
 
+.top {
+  display: flex;
+  flex-flow: row nowrap;
+  background-color: red;
+  text-align: center;
+}
+
+.room{
+}
+
+.nickname{
+}
+
+.container{
+  display: flex;
+  flex-flow: column nowrap;
+  text-align: center;
+  color:white;
+}
+
 .message:empty, .currentMove:empty, .players:empty {
   display: none;
 }
 
+
+.col-1 {
+  flex: 1 1 33.333%;
+  background-color: green;
+}
+
+.col-2 {
+  flex: 1 1 33.3333%;
+  background-color: blue;
+}
+
+.col-3 {
+  flex: 1 1 33.3333%;
+  background-color: red;
+}
