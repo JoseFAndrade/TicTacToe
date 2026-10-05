@@ -2,13 +2,35 @@
 
 
 <div class = "container">
+  <h1>Welcome to multi-player tic-tac-toe!</h1>
+  <div class = "room">
+    @if(room() === -1)
+    {
+      <label> Enter room id for either creation or joining of a lobby </label>
+      <input type = "text" id = "room" #userInput placeholder= "Enter a room ID">
+      <div class="btn-group">
+        <button id="create-room" (click) = "create(userInput.value)">Create Room</button>
+        <button id="join-room" (click) = "join(userInput.value)">Join Room</button>
+      </div>
 
-  <div class = "top">
+    }
+  </div>
 
-      <div class="message col-1">
-        @if(display == true){
-          <p [style.color]="selectedColor"> {{displayMessage()}} </p>
-        }
+  @if(socketId()){
+    <div class = "nickname">
+      <label>Nickname</label>
+      <input type="text" id="username" #userInput: [placeholder] = "socketId()">
+    </div>
+  }
+
+  <div class="message">
+
+    @if(this.room() == -1){
+    }
+    @else {
+      <p [style.color]="selectedColor"> {{displayMessage()}} </p>
+
+    }
 
       </div>
 
@@ -17,10 +39,10 @@
         <p> what {{message}}</p>
       }
 
-      <div class="col-1">
-        @if (room() !== -1){
-          <h1> The current room number is: {{room()}}</h1>
-        }
+  <div class="currentMove">
+    @if (room() !== -1){
+      <h1> The current room number is: {{room()}}</h1>
+    }
 
         @if(firstTurn() !== ""){
           @if(firstTurn() === socket.getId() ){
