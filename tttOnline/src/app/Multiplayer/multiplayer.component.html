@@ -2,30 +2,29 @@
 
 
 <div class = "container">
-  <h1>Welcome to multi-player tic-tac-toe!</h1>
+
   <div class = "top">
-
-    <div class = "empty"></div>
-    <div class = "room">
-      @if(room() === -1)
-      {
-        <label> Enter room id for either creation or joining of a lobby </label>
-        <input type = "text" id = "room" #userInput placeholder= "Enter a room ID">
-        <div class="btn-group">
-          <button id="create-room" (click) = "create(userInput.value)">Create Room</button>
-          <button id="join-room" (click) = "join(userInput.value)">Join Room</button>
-        </div>
-
-      }
-    </div>
-
     <div class = "nickname">
       @if(socketId()){
         <label>Nickname</label>
         <input type="text" id="username" #userInput: [placeholder] = "socketId()">
       }
     </div>
+    <h1>Welcome to multi-player tic-tac-toe!</h1>
 
+  </div>
+
+  <div class = "room">
+    @if(room() === -1)
+    {
+      <label> Enter room id for either creation or joining of a lobby </label>
+      <input type = "text" id = "room" #userInput placeholder= "Enter a room ID">
+      <div class="btn-group">
+        <button id="create-room" (click) = "create(userInput.value)">Create Room</button>
+        <button id="join-room" (click) = "join(userInput.value)">Join Room</button>
+      </div>
+
+    }
   </div>
 
 

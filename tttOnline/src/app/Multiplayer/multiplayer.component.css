@@ -72,29 +72,15 @@
 }
 
 .top {
-  display: flex;
-  flex-flow: row nowrap;
-  text-align: center;
-  justify-content: space-between;
-}
-
-.room{
 
 }
 
 .nickname{
-  width:200px;
+  text-align: end;
+  padding-right:5%;
 }
 
 .empty{
-  width:200px;
-}
-
-.container{
-  display: flex;
-  flex-flow: column nowrap;
-  text-align: center;
-  color:white;
 }
 
 .message:empty, .currentMove:empty, .players:empty {
