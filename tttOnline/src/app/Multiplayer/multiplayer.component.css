@@ -4,17 +4,55 @@
 
 .container{
   display: flex;
-  flex-flow: column nowrap;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 1em;
   text-align: center;
   color:white;
+}
+
+.container .game-rules h1, .container .game-rules p {
+  text-align: start;
+}
+
+.container > div:first-child {
+  flex: 1;
+  min-width: 500px;
+}
+
+.container > div:nth-child(2) {
+  flex: 2;
+  min-width: 500px;
+}
+
+.container .top {
+  justify-content: center;
 }
 
 .container .room {
   display: flex;
   flex-direction: column;
   gap: 1em;
-  align-items: center;
+  align-items: start;
+}
+
+.container .room > div {
+  flex: 1;
+}
+
+.container .room .user-inputs {
+  display: flex;
+  gap: 1em;
+}
+
+.container .room .user-inputs > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.container .room label {
+  font-weight: bold;
 }
 
 .container .room input {
@@ -26,7 +64,15 @@
 
 .container .btn-group {
   display: flex;
+  flex-direction: column;
+  align-items: start;
   gap: 1em;
+}
+
+.container .btn-group p {
+  margin-bottom: 0;
+  font-style: italic;
+  font-size: .9rem;
 }
 
 .container .btn-group button {
@@ -34,6 +80,8 @@
   font-weight: bold;
     border-radius: 6px;
     line-height: 1;
+    width: fit-content;
+    font-size: .9rem;
 }
 
 .container .btn-group button#create-room {
