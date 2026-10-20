@@ -7,7 +7,8 @@
     <div class = "nickname">
       @if(socketId()){
         <label>Nickname</label>
-        <input type="text" id="username" #userInput: [placeholder] = "socketId()">
+        <input type="text" id="username" #userInput [placeholder] = "socketId()">
+        <button (click) = "updateName(userInput.value)">Update</button>
       }
     </div>
     <h1>Welcome to multi-player tic-tac-toe!</h1>
