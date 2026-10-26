@@ -37,13 +37,11 @@
       <p [style.color]="selectedColor"> {{displayMessage()}} </p>
 
     }
+  </div>
 
-      </div>
-
-
-      @if(latestMove == true){
-        <p> what {{message}}</p>
-      }
+  @if(latestMove == true){
+    <p> what {{message}}</p>
+  }
 
   <div class="currentMove">
     @if (room() !== -1){
@@ -59,50 +57,31 @@
           }
         }
       </div>
+  <div class = "center">
+    <div class="players col">
+      @for (players of this.roomPlayers(); track $index) {
+        <p> {{ players }} </p>
+      }
+    </div>
 
-      <!--
-      <div class = "room">
-        @if(room() === -1)
-        {
-          <label> Enter room id for either creation or joining of a lobby </label>
-          <input type = "text" id = "room" #userInput placeholder= "room_id">
-          <button (click) = "create(userInput.value)">Create Room</button>
-          <button (click) = "join(userInput.value)">Join Room</button>
-        }
-      </div>-->
-
-  <!--
-      <div class="">
-        @if(socketId()){
-          <div>
-            <h1>Insert name here</h1>
-          </div>
-          <div class = "nickname">
-            <label>Nickname </label>
-            <input type="text" id="username" #nameInput [placeholder] = "socketId()">
-            <button (click) = "updateName(nameInput.value)"> Update </button>
-          </div>
-        }
-      </div>-->
-  <div class="players">
-    @for (players of this.roomPlayers(); track $index) {
-      <p> {{ players }} </p>
-
-    }
-  </div>
-  <div class = "table">
-    @for(row of board; let i = $index; track i){
-      @for(column of board[$index]; let j = $index; track j){
-        @if( this.socket.getId() == board[i][j] ){
-          <div style="background-color: blue " (click) = "onTileClick($event, i,j)" >  </div>
-        } @else if(board[i][j] == "-1" ){
-          <div style="background-color: black " (click) = "onTileClick($event, i,j)" >  </div>
-        } @else {
-          <div style="background-color: red " (click) = "onTileClick($event, i,j)" > </div>
+    <div class = "table">
+      @for(row of board; let i = $index; track i){
+        @for(column of board[$index]; let j = $index; track j){
+          @if( this.socket.getId() == board[i][j] ){
+            <div style="background-color: blue " (click) = "onTileClick($event, i,j)" >  </div>
+          } @else if(board[i][j] == "-1" ){
+            <div style="background-color: black " (click) = "onTileClick($event, i,j)" >  </div>
+          } @else {
+            <div style="background-color: red " (click) = "onTileClick($event, i,j)" > </div>
+          }
         }
       }
-    }
     </div>
+
+    <div class="col">
+    </div>
+
+  </div>
     <!--
     @if (x !== -1 && y !== -1){
       <p> Your current selection is: {{x}} {{y}}</p>
