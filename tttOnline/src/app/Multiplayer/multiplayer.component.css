@@ -81,7 +81,7 @@
   padding-right:5%;
 }
 
-.message:empty, .currentMove:empty, {
+.message:empty, .currentMove:empty {
   display: none;
 }
 

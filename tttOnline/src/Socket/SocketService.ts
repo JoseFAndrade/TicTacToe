@@ -33,8 +33,8 @@ export class SocketService {
   playersInlobby: Observable<any>;
   onSocketID: Observable<any>;
   constructor() {
-    //this.socket = io('https://backend-test-3jyw.onrender.com',
-    this.socket = io('ws://localhost:3000', {
+    this.socket = io('https://backend-test-3jyw.onrender.com', {
+    //this.socket = io('ws://localhost:3000', {
       reconnection: true, // Enable automatic reconnection (default: true)
       reconnectionAttempts: Infinity, // Keep trying to reconnect
       reconnectionDelay: 1000, // Start waiting 1 second before first retry

@@ -15,6 +15,21 @@ export class Home {
   personToColor = ['red', 'blue'];
   private renderer = inject(Renderer2);
 
+
+  constructor() {
+    var grid2 = [
+      [0,1,0],
+      [-1,1,-1],
+      [-1,-1,-1]
+    ];
+
+    console.log("test");
+    console.log(JSON.stringify(grid2));
+    console.log(Tictactoe.minimax(1, grid2));
+    console.log("what ");
+  }
+
+
   /**
    * Will return the x and y coordinates of the tile that is being clicked on
    * @param i The i index
