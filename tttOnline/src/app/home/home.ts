@@ -1,4 +1,4 @@
-import { Component, Renderer2, inject } from '@angular/core';
+import { Component, Renderer2, inject, afterNextRender } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Tictactoe } from '../Tictactoe';
 
@@ -15,20 +15,27 @@ export class Home {
   personToColor = ['red', 'blue'];
   private renderer = inject(Renderer2);
 
-
   constructor() {
-    var grid2 = [
-      [0,1,0],
-      [-1,1,-1],
-      [-1,-1,-1]
-    ];
 
-    console.log("test");
-    console.log(JSON.stringify(grid2));
-    console.log(Tictactoe.minimax(1, grid2));
-    console.log("what ");
   }
 
+  ngOnInit() {
+    var grid2 = [
+      [0, 1, 0],
+      [0, 1, 0],
+      [-1, -1, 1],
+    ];
+
+    var grid3 = [
+      [0, 1, 0],
+      [1, 1, 1],
+      [0, 1, 0],
+    ];
+    console.log('test');
+    console.log(JSON.stringify(grid2));
+    console.log(Tictactoe.minimax(1, grid2));
+    console.log('what ');
+  }
 
   /**
    * Will return the x and y coordinates of the tile that is being clicked on

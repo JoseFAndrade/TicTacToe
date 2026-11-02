@@ -69,8 +69,6 @@ export class Tictactoe {
       }
       if (continues) return prev; //returns the number of the winner in this case
     }
-
-    console.log('check within a row');
     //check within a column
     for (let i = 0; i <= 2; i++) {
       console.log('x');
@@ -80,13 +78,11 @@ export class Tictactoe {
         if (prev === -2 || this.grid[y][i] === prev) {
           prev = this.grid[y][i];
         } else {
-          console.log('break');
           continues = false;
           break;
         }
       }
       if (continues) {
-        console.log('this is the issue');
         return prev;
       }
     }
@@ -134,13 +130,11 @@ export class Tictactoe {
         if (prev === -2 || grid[y][i] === prev) {
           prev = grid[y][i];
         } else {
-          console.log('break');
           continues = false;
           break;
         }
       }
       if (continues) {
-        console.log('this is the issue');
         return prev;
       }
     }
@@ -156,17 +150,26 @@ export class Tictactoe {
 
   static minimax(player: number, grid:number[][]) {
     console.log(grid);
+    const instanceId = Math.random().toString(36).substring(7);
+    console.log(`[Minimax Start - ID: ${instanceId}] Grid:`, grid);
+    console.trace(`Where did ID ${instanceId} come from?`);
     var score = Number.MIN_VALUE;
     var move : number[] = [];
 
-    Tictactoe.possibleMoves(grid).forEach((moves) => {
+    console.log("Possible moves");
+    console.log(Tictactoe.possibleMoves(grid));
+    console.log(`[ID: ${instanceId}] Found ${Tictactoe.possibleMoves(grid).length} possible moves.`);
+    Tictactoe.possibleMoves(grid).forEach((moves, index) => {
+      console.log("**********************");
+      console.log(`[ID: ${instanceId}] Loop iteration #${index + 1} for move:`, moves);
       console.log(moves);
-      grid[moves[0]][moves[1]] = player;
+      //grid[moves[0]][moves[1]] = player;
 
       var s = this.recursion(player, Object.assign([], grid), true);
-      grid[moves[0]][moves[1]] = -1;
+      //grid[moves[0]][moves[1]] = -1;
 
-      console.log(s);
+      console.log("current iteration score: " + s);
+      console.log(score);
       if (s > score){
         score = s;
         move = moves;
@@ -174,20 +177,38 @@ export class Tictactoe {
 
     });
 
+
+    console.log("best move is: " + move);
     return move;
   }
+
+  //TODO fix the issue where I have two different functions where what happens is that the recursion ends up running the
+  //for loop inside of the minimax function and so what happens in the current scenario is that we have two options
+  //the recursion should only take into consideration each individual route but it still ends up taking both routes into consideration
+  //and it is because I have the possible moves functions open up at the same time and they are both running in both functions
+  //need to end up fixing this at some point
+
+  
 
   //player will keep track of whoever the current algo is running for
   //grid is the grid of the game
   //current turn is whoevers turn it currently is -> important in order to keep track of who is moving
   static recursion(player: number, grid: number[][], maximizing: boolean): number {
     //base cases are first
+    console.log("-----------------");
     var result: number = Tictactoe.checkWin1(grid);
-
+    console.log("result: " + result);
     console.log(JSON.stringify(grid ));
     if (!Tictactoe.checkPlayable(grid)) {
-      if (result === 0) return 0;
-      else if (player === result) return 1;
+      console.log("game ended");
+      if (result === -1) {
+        console.log("no way");
+        return 0;
+      }
+      else if (player === result) {
+        console.log("run");
+        return 1;
+      }
       else return -1;
     }
 
@@ -198,7 +219,8 @@ export class Tictactoe {
         //need to make the current move and add it to the grid and then calculate
         grid[moves[0]][moves[1]] = player;
         var value = this.recursion(player, grid, false);
-
+        console.log("The current recursion value is:" + value);
+        console.log("The current max value is: " + max);
         max = Math.max(value, max);
       });
 
@@ -211,7 +233,7 @@ export class Tictactoe {
       Tictactoe.possibleMoves(grid).forEach((moves) => {
         //i think i need to flip the player here?
         var flip = player === 1? 0 : 1;
-
+        console.log("The flip value is" + flip);
         grid[moves[0]][moves[1]] = flip;
         var value = this.recursion(player, grid, true);
         min = Math.min(value, min);
