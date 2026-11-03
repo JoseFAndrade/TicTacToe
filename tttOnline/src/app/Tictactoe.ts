@@ -144,29 +144,24 @@ export class Tictactoe {
 
     if (grid[2][0] === grid[1][1] && grid[1][1] === grid[0][2]) return grid[2][0];
 
-    //this means that there will be no winner left
+    //this means that there is no current winner
     return -1;
   }
 
   static minimax(player: number, grid:number[][]) {
     console.log(grid);
     const instanceId = Math.random().toString(36).substring(7);
-    console.log(`[Minimax Start - ID: ${instanceId}] Grid:`, grid);
-    console.trace(`Where did ID ${instanceId} come from?`);
-    var score = Number.MIN_VALUE;
+
+    var score = Number.MIN_SAFE_INTEGER;
     var move : number[] = [];
 
-    console.log("Possible moves");
-    console.log(Tictactoe.possibleMoves(grid));
-    console.log(`[ID: ${instanceId}] Found ${Tictactoe.possibleMoves(grid).length} possible moves.`);
     Tictactoe.possibleMoves(grid).forEach((moves, index) => {
       console.log("**********************");
-      console.log(`[ID: ${instanceId}] Loop iteration #${index + 1} for move:`, moves);
       console.log(moves);
-      //grid[moves[0]][moves[1]] = player;
-
-      var s = this.recursion(player, Object.assign([], grid), true);
-      //grid[moves[0]][moves[1]] = -1;
+      console.log(JSON.stringify(grid));
+      grid[moves[0]][moves[1]] = player;
+      var s = this.recursion(player, grid, false);
+      grid[moves[0]][moves[1]] = -1;
 
       console.log("current iteration score: " + s);
       console.log(score);
@@ -174,9 +169,10 @@ export class Tictactoe {
         score = s;
         move = moves;
       }
+      console.log("after");
+      console.log(score);
 
     });
-
 
     console.log("best move is: " + move);
     return move;
@@ -188,7 +184,7 @@ export class Tictactoe {
   //and it is because I have the possible moves functions open up at the same time and they are both running in both functions
   //need to end up fixing this at some point
 
-  
+
 
   //player will keep track of whoever the current algo is running for
   //grid is the grid of the game
@@ -199,17 +195,16 @@ export class Tictactoe {
     var result: number = Tictactoe.checkWin1(grid);
     console.log("result: " + result);
     console.log(JSON.stringify(grid ));
-    if (!Tictactoe.checkPlayable(grid)) {
-      console.log("game ended");
-      if (result === -1) {
-        console.log("no way");
-        return 0;
-      }
-      else if (player === result) {
-        console.log("run");
+    console.log(Tictactoe.checkPlayable(grid));
+    if (result != -1) {
+      if (player === result) {
         return 1;
       }
       else return -1;
+    }
+    else { //means that result is -1 -> there can still be plays to be made but no winner
+      if(!Tictactoe.checkPlayable(grid)) //if there is no playable options and no winner return 0
+        return 0;
     }
 
     if(maximizing){
@@ -222,6 +217,7 @@ export class Tictactoe {
         console.log("The current recursion value is:" + value);
         console.log("The current max value is: " + max);
         max = Math.max(value, max);
+        grid[moves[0]][moves[1]] = -1;
       });
 
       return max;
@@ -237,6 +233,7 @@ export class Tictactoe {
         grid[moves[0]][moves[1]] = flip;
         var value = this.recursion(player, grid, true);
         min = Math.min(value, min);
+        grid[moves[0]][moves[1]] = -1;
       });
 
       return min;
