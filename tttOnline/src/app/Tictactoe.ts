@@ -148,33 +148,32 @@ export class Tictactoe {
     return -1;
   }
 
-  static minimax(player: number, grid:number[][]) {
+  static minimax(player: number, grid: number[][]) {
     console.log(grid);
     const instanceId = Math.random().toString(36).substring(7);
 
     var score = Number.MIN_SAFE_INTEGER;
-    var move : number[] = [];
+    var move: number[] = [];
 
     Tictactoe.possibleMoves(grid).forEach((moves, index) => {
-      console.log("**********************");
+      console.log('**********************');
       console.log(moves);
       console.log(JSON.stringify(grid));
       grid[moves[0]][moves[1]] = player;
-      var s = this.recursion(player, grid, false);
+      var s = this.recursionDepth(player, grid, false,1);
       grid[moves[0]][moves[1]] = -1;
 
-      console.log("current iteration score: " + s);
+      console.log('current iteration score: ' + s);
       console.log(score);
-      if (s > score){
+      if (s > score) {
         score = s;
         move = moves;
       }
-      console.log("after");
+      console.log('after');
       console.log(score);
-
     });
 
-    console.log("best move is: " + move);
+    console.log('best move is: ' + move);
     return move;
   }
 
@@ -184,52 +183,48 @@ export class Tictactoe {
   //and it is because I have the possible moves functions open up at the same time and they are both running in both functions
   //need to end up fixing this at some point
 
-
-
   //player will keep track of whoever the current algo is running for
   //grid is the grid of the game
   //current turn is whoevers turn it currently is -> important in order to keep track of who is moving
   static recursion(player: number, grid: number[][], maximizing: boolean): number {
     //base cases are first
-    console.log("-----------------");
+    console.log('-----------------');
     var result: number = Tictactoe.checkWin1(grid);
-    console.log("result: " + result);
-    console.log(JSON.stringify(grid ));
+    console.log('result: ' + result);
+    console.log(JSON.stringify(grid));
     console.log(Tictactoe.checkPlayable(grid));
     if (result != -1) {
       if (player === result) {
         return 1;
-      }
-      else return -1;
-    }
-    else { //means that result is -1 -> there can still be plays to be made but no winner
-      if(!Tictactoe.checkPlayable(grid)) //if there is no playable options and no winner return 0
+      } else return -1;
+    } else {
+      //means that result is -1 -> there can still be plays to be made but no winner
+      if (!Tictactoe.checkPlayable(grid))
+        //if there is no playable options and no winner return 0
         return 0;
     }
 
-    if(maximizing){
+    if (maximizing) {
       var max = Number.MIN_VALUE;
 
       Tictactoe.possibleMoves(grid).forEach((moves) => {
         //need to make the current move and add it to the grid and then calculate
         grid[moves[0]][moves[1]] = player;
         var value = this.recursion(player, grid, false);
-        console.log("The current recursion value is:" + value);
-        console.log("The current max value is: " + max);
+        console.log('The current recursion value is:' + value);
+        console.log('The current max value is: ' + max);
         max = Math.max(value, max);
         grid[moves[0]][moves[1]] = -1;
       });
 
       return max;
-
-    }
-    else{
+    } else {
       var min = Number.MAX_VALUE;
 
       Tictactoe.possibleMoves(grid).forEach((moves) => {
         //i think i need to flip the player here?
-        var flip = player === 1? 0 : 1;
-        console.log("The flip value is" + flip);
+        var flip = player === 1 ? 0 : 1;
+        console.log('The flip value is' + flip);
         grid[moves[0]][moves[1]] = flip;
         var value = this.recursion(player, grid, true);
         min = Math.min(value, min);
@@ -240,16 +235,64 @@ export class Tictactoe {
     }
   }
 
-
-  static possibleMoves(grid: number[][]){
+  static possibleMoves(grid: number[][]) {
     var res = [];
-    for(var i = 0; i < grid.length; i++){
-      for(var y = 0; y < grid[i].length; y++){
-        if(grid[i][y] === -1)
-          res.push([i, y]);
+    for (var i = 0; i < grid.length; i++) {
+      for (var y = 0; y < grid[i].length; y++) {
+        if (grid[i][y] === -1) res.push([i, y]);
       }
     }
 
     return res;
   }
+
+  static recursionDepth(player: number, grid: number[][], maximizing: boolean, depth: number): number {
+    //base cases are first
+    console.log('-----------------');
+    var result: number = Tictactoe.checkWin1(grid);
+    console.log('result: ' + result);
+    console.log(JSON.stringify(grid));
+    console.log(Tictactoe.checkPlayable(grid));
+    if (result != -1) {
+      if (player === result) {
+        return 10 - depth;
+      } else return -10 + depth ;
+    } else {
+      //means that result is -1 -> there can still be plays to be made but no winner
+      if (!Tictactoe.checkPlayable(grid))
+        //if there is no playable options and no winner return 0
+        return 0;
+    }
+
+    if (maximizing) {
+      var max = Number.MIN_VALUE;
+
+      Tictactoe.possibleMoves(grid).forEach((moves) => {
+        //need to make the current move and add it to the grid and then calculate
+        grid[moves[0]][moves[1]] = player;
+        var value = this.recursionDepth(player, grid, false, depth + 1);
+        console.log('The current recursion value is:' + value);
+        console.log('The current max value is: ' + max);
+        max = Math.max(value, max);
+        grid[moves[0]][moves[1]] = -1;
+      });
+
+      return max;
+    } else {
+      var min = Number.MAX_VALUE;
+
+      Tictactoe.possibleMoves(grid).forEach((moves) => {
+        //i think i need to flip the player here?
+        var flip = player === 1 ? 0 : 1;
+        console.log('The flip value is' + flip);
+        grid[moves[0]][moves[1]] = flip;
+        var value = this.recursionDepth(player, grid, true, depth + 1);
+        min = Math.min(value, min);
+        grid[moves[0]][moves[1]] = -1;
+      });
+
+      return min;
+    }
+  }
+
 }

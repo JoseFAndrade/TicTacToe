@@ -27,13 +27,13 @@ export class Home {
     ];
 
     var grid3 = [
-      [0, 1, 0],
-      [1, 1, 1],
-      [0, 1, 0],
+      [1, 0, 0],
+      [-1, -1, -1],
+      [-1, 1, -1],
     ];
     console.log('test');
     console.log(JSON.stringify(grid2));
-    console.log(Tictactoe.minimax(1, grid2));
+    console.log(Tictactoe.minimax(1, grid3));
     console.log('what ');
   }
 
