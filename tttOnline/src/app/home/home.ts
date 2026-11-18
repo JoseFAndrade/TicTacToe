@@ -14,10 +14,9 @@ export class Home {
   person: number = 0;
   personToColor = ['red', 'blue'];
   private renderer = inject(Renderer2);
+  depth: number | undefined = 2;
 
-  constructor() {
-
-  }
+  constructor() {}
 
   ngOnInit() {
     var grid2 = [
@@ -33,7 +32,7 @@ export class Home {
     ];
     console.log('test');
     console.log(JSON.stringify(grid2));
-    console.log(Tictactoe.minimax(1, grid3));
+    //console.log(Tictactoe.minimax(1, grid3));
     console.log('what ');
   }
 
@@ -55,8 +54,22 @@ export class Home {
       if (won !== -1)
         console.log('the game has ended and ' + this.personToColor[won] + 'has won the game');
       //change turn
-      if (this.person === 0) this.person = 1;
-      else this.person = 0;
+      //if (this.person === 0) this.person = 1;
+      //else this.person = 0;
+      //have ai take over _> ai is always 1
+      var move = Tictactoe.minimax(1, this.game.getGrid(), this.depth);
+      console.log('ai move was: ' + move);
+      var x = move[0];
+      var y = move[1];
+
+      this.game.setPiece(x, y, 1);
+      var aiTag = document.getElementsByClassName(`piece-${x}-${y}`)[0];
+      console.log(aiTag);
+      this.renderer.setStyle(aiTag, 'background-color', 'blue');
     }
+  }
+
+  setCap(cap: number | undefined) {
+    this.depth = cap;
   }
 }

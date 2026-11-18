@@ -1,20 +1,19 @@
 <nav>
   <a routerLink="/multiplayer">multiplayer</a>
 </nav>
-
-<p>home works!</p>
-
-
-  <h1> It is the turn of {{personToColor[person]}} </h1>
+ <div class = "btn-group">
+    <button (click) = "setCap(2)"> Easy </button>
+    <button (click)="setCap(4)"> Medium </button>
+    <button (click) = "setCap(99)"> Hard </button>
+  </div>
+<p>Please make sure to not swap difficulties constantly only before the game starts. While it can work it can lead to issues. </p>
+<h1> It is the turn of {{personToColor[person]}} </h1>
   <div class = "table">
 
     @for(row of grid; let i = $index; track i){
         @for(column of grid[$index]; let j = $index; track j){
 
-          <div (click) = "onTileClick($event, i,j)" > {{i}} {{j}} </div>
+          <div class = "piece-{{i}}-{{j}}" (click) = "onTileClick($event, i,j)" > {{i}} {{j}} </div>
         }
     }
   </div>
-
-
-<p>test</p>
