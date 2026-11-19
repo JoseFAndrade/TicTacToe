@@ -10,10 +10,13 @@
 <h1> It is the turn of {{personToColor[person]}} </h1>
   <div class = "table">
 
-    @for(row of grid; let i = $index; track i){
-        @for(column of grid[$index]; let j = $index; track j){
+    @for(row of grid(); let i = $index; track i){
+        @for(column of grid()[$index]; let j = $index; track j){
 
-          <div class = "piece-{{i}}-{{j}}" (click) = "onTileClick($event, i,j)" > {{i}} {{j}} </div>
+          <div [style.background-color] = "column === -1? 'black': personToColor[column]" class = "piece-{{i}}-{{j}}" (click) = "onTileClick($event, i,j)" > {{i}} {{j}} </div>
         }
     }
   </div>
+
+
+<button (click) = "resetBoard()"> Reset </button>

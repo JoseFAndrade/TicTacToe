@@ -1,4 +1,12 @@
-import { Component, Renderer2, inject, afterNextRender } from '@angular/core';
+import {
+  Component,
+  Renderer2,
+  inject,
+  afterNextRender,
+  Signal,
+  WritableSignal,
+  signal,
+} from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { Tictactoe } from '../Tictactoe';
 
@@ -10,7 +18,7 @@ import { Tictactoe } from '../Tictactoe';
 })
 export class Home {
   game: Tictactoe = new Tictactoe();
-  grid = this.game.getGrid();
+  grid = signal(this.game.getGrid());
   person: number = 0;
   personToColor = ['red', 'blue'];
   private renderer = inject(Renderer2);
@@ -46,7 +54,7 @@ export class Home {
 
     if (this.game.checkPlayable()) {
       const tag = event.target as HTMLElement;
-      this.renderer.setStyle(tag, 'background-color', this.personToColor[this.person]);
+      //this.renderer.setStyle(tag, 'background-color', this.personToColor[this.person]);
 
       this.game.setPiece(i, j, this.person);
 
@@ -71,5 +79,12 @@ export class Home {
 
   setCap(cap: number | undefined) {
     this.depth = cap;
+  }
+
+  resetBoard(){
+    this.game = new Tictactoe();
+    this.grid.set(this.game.getGrid());
+    console.log("did it not reset");
+    console.log(this.grid());
   }
 }
